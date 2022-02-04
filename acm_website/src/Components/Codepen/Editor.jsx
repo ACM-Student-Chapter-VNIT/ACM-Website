@@ -2,6 +2,7 @@
 import CodeInput from './AceEditor'
 import React, { useState, useEffect } from 'react';
 import Output from './Output';
+import codepen from "./codepen.module.css";
 import Grid from '@mui/material/Grid';
 import Button from '@mui/material/Button';
 import axios from 'axios';
@@ -9,6 +10,7 @@ import Snackbar from '@mui/material/Snackbar';
 import MuiAlert from '@mui/material/Alert';
 import {isAuthenticated} from '../auth/Helpers';
 import { useParams } from 'react-router-dom';
+import Loader from "../Loader";
 
 const Project = (props) => {
   const [jsCode, setjsCode] = useState("");
@@ -19,6 +21,7 @@ const Project = (props) => {
   const [codeMode, setcodeMode] = useState(0);
   const [open, setOpen] = useState(false);
   const [theme, setTheme] = useState('terminal');
+	const [loaded, setLoaded] = useState(false);
 
   const { id } = useParams();
   let token
@@ -43,6 +46,7 @@ const Project = (props) => {
         setjsCode(res.data.js);
         sethtmlCode(res.data.html);
         setcssCode(res.data.css);
+				setLoaded(true);
       })
       .catch(err => {
         window.location.href = '/codepen';
@@ -99,25 +103,26 @@ const Project = (props) => {
     console.log(value);
   }
   return (
-    <div className="Project">
+		loaded ?
+    <div className={codepen.Project}>
       <Grid container spacing={2}>
         {!fullScreenView &&
 
           <Grid item xs={12} md={6} lg={6}>
-            <Button disabled={codeMode===0} className={codeMode === 0 ? "codeMode-active" : "codeMode-inactive"} onClick={() => { setcodeMode(0) }} variant="outlined"> HTML</Button>
-            <Button disabled={codeMode===1} className={codeMode === 1 ? "codeMode-active" : "codeMode-inactive"} onClick={() => { setcodeMode(1) }} variant="outlined"> CSS</Button>
-            <Button disabled={codeMode===2} className={codeMode === 2 ? "codeMode-active" : "codeMode-inactive"} onClick={() => { setcodeMode(2) }} variant="outlined"> JS</Button>
+            <Button disabled={codeMode===0} className={codeMode === 0 ? codepen["codeMode-active"] : codepen["codeMode-inactive"]} onClick={() => { setcodeMode(0) }} variant="outlined"> HTML</Button>
+            <Button disabled={codeMode===1} className={codeMode === 1 ? codepen["codeMode-active"] : codepen["codeMode-inactive"]} onClick={() => { setcodeMode(1) }} variant="outlined"> CSS</Button>
+            <Button disabled={codeMode===2} className={codeMode === 2 ? codepen["codeMode-active"] : codepen["codeMode-inactive"]} onClick={() => { setcodeMode(2) }} variant="outlined"> JS</Button>
             {codeMode === 0 && <CodeInput language="html" value={htmlCode} save={sethtmlCode} setTheme={setTheme} theme={theme}></CodeInput>}
             {codeMode === 1 && <CodeInput language="css" value={cssCode} save={setcssCode} setTheme={setTheme} theme={theme}></CodeInput>}
             {codeMode === 2 && <CodeInput language="javascript" value={jsCode} save={setjsCode} setTheme={setTheme} theme={theme}></CodeInput>}
           </Grid>
         }
         <Grid item xs={12} md={fullScreenView ? 12 : 6} lg={fullScreenView ? 12 : 6}>
-          <Button className="FullScreenToggle" onClick={() => { setfullScreenView(!fullScreenView) }} variant="outlined">
+          <Button className={codepen.FullScreenToggle} onClick={() => { setfullScreenView(!fullScreenView) }} variant="outlined">
             View</Button>
-          <Button className="FullScreenToggle" onClick={() => { handleSave() }} variant="outlined">
+          <Button className={codepen.FullScreenToggle} onClick={() => { handleSave() }} variant="outlined">
             Save</Button>
-          <Button className="FullScreenToggle" onClick={() => { handlemyProjects() }} variant="outlined">
+          <Button className={codepen.FullScreenToggle} onClick={() => { handlemyProjects() }} variant="outlined">
             My Projects</Button>
           <Output code={totalCode}></Output>
         </Grid>
@@ -127,7 +132,7 @@ const Project = (props) => {
           </Alert>
         </Snackbar>
       </Grid>
-    </div>
+    </div> : <Loader />
   );
 }
 

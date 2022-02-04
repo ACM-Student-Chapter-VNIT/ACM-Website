@@ -1,16 +1,17 @@
-
 import { useState, useEffect } from 'react';
 import Grid from '@mui/material/Grid';
 import ProjectCard from './ProjectCard';
 import axios from 'axios';
+import codepen from "./codepen.module.css";
 import { useParams } from 'react-router';
 import NavBar2 from './Navbar2';
-
+import Loader from "../Loader";
 
 const HomeScreen = () => {
 
   let username=null;
   const [projects, setProjects] = useState([]);
+	const [loaded, setLoaded] = useState(false);
 
   useEffect(() => {
     const token = localStorage.getItem("accessToken");
@@ -22,10 +23,11 @@ const HomeScreen = () => {
     })
       .then((res) => {
         setProjects(res.data);
-        console.log(res.data[0]);
+        // console.log(res.data[0]);
         if(res.data[0] !== undefined){
           username = res.data[0].owner;
         }
+				setLoaded(true);
       })
       .catch(err => {
         console.error(err);
@@ -34,9 +36,10 @@ const HomeScreen = () => {
   }, [])
 
   return (
-    <div >
-    <NavBar2 />
-      <div className="DisplayCards">
+    <>
+    	<NavBar2 />
+			{loaded ?
+			<div className={codepen.DisplayCards}>
         <Grid container spacing={3}>
           {
             projects.length !== 0 ?
@@ -52,11 +55,11 @@ const HomeScreen = () => {
                 <h1>Hey, No Projects! Create one now and improve your frontend Skills!!</h1>
               </div>
           }
-
         </Grid>
-      </div>
-    </div>
+      </div> : <Loader />}
+    </>
   );
 }
 
 export default HomeScreen;
+

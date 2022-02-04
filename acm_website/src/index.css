@@ -9,3 +9,17 @@ body {
 code {
     font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New", monospace;
 }
+
+.loader {
+	background: url(./../public/load.gif) no-repeat;
+	background-size: contain; /* Must be after background */
+	bottom: 0;
+	height: 75px;
+	left: 0;
+	margin: 50vh auto;
+	opacity: 0.5;
+	position: absolute;
+	right: 0;
+	top: 0;
+	width: 75px;
+}

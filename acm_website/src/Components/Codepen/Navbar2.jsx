@@ -4,6 +4,7 @@ import Toolbar from '@mui/material/Toolbar';
 import { Button, TextField } from '@mui/material';
 import { useParams } from 'react-router';
 import axios from 'axios';
+import codepen from "./codepen.module.css";
 import AddBoxIcon from '@mui/icons-material/AddBox';
 import Dialog from '@mui/material/Dialog';
 import DialogContent from '@mui/material/DialogContent';
@@ -43,11 +44,11 @@ const NavBar = () => {
         setOpen(false);
     };
     return (
-        <div className="Navbar">
+        <div className={codepen.Navbar}>
             <Box sx={{ flexGrow: 1 }}>
                 <Toolbar variant="dense">
-                    <h1>{"<CodePro/>"}</h1>
-                    <div className="homebuttons">
+                    <h1 className={codepen.heading}>{"<CodePro/>"}</h1>
+                    <div className={codepen.homebuttons}>
                         <Dialog open={open} onClose={handleClose}>
                             <DialogTitle>New Project</DialogTitle>
                             <DialogContent>
@@ -58,8 +59,7 @@ const NavBar = () => {
                                 <Button variant="text" onClick={handleNewproject}>Create</Button>
                             </DialogContent>
                         </Dialog>
-                        <Button variant="outlined" className="codeMode-active" component="span" onClick={handleClickOpen}><AddBoxIcon></AddBoxIcon> </Button>
-
+                        <Button variant="outlined" className={codepen["codeMode-active"]} component="span" onClick={handleClickOpen}><AddBoxIcon></AddBoxIcon> </Button>
                     </div>
                 </Toolbar>
             </Box>

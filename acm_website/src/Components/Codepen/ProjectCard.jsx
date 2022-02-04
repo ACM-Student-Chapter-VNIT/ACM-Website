@@ -1,11 +1,14 @@
-
 import { Card, CardMedia, CardContent, CardActions, Typography, Button } from '@mui/material'
 import { Link } from 'react-router-dom'
+import codepen from "./codepen.module.css";
 import axios from 'axios'
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
+import Loader from "../Loader";
 
 const ProjectCard = (props) => {
+	// const [loaded, setLoaded] = useState(false);
+
   const token = localStorage.getItem("accessToken");
   const handleDelete = (id) => {
     const params = JSON.stringify({
@@ -43,10 +46,10 @@ const ProjectCard = (props) => {
         </Typography>
       </CardContent>
       <CardActions>
-        <Button className="codeMode" size="small">
+        <Button className={codepen.codeMode} size="small">
           <Link to={`/codepen/projects/${props.id}`} color="white"><EditIcon></EditIcon></Link>
         </Button>
-        <Button className="codeMode" size="small" variant="danger" onClick={() => handleDelete(props.id)}>
+        <Button className={codepen.codeMode} size="small" variant="danger" onClick={() => handleDelete(props.id)}>
           <DeleteIcon></DeleteIcon>
         </Button>
       </CardActions>
