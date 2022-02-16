@@ -16,6 +16,7 @@ const problem_router = require("./routes/problemRouter");
 const compiler_router = require("./routes/compilerRouter");
 const auth_router = require("./routes/LoginRegister");
 const codepen_router = require("./routes/codepenRouter");
+const discussion_router = require("./routes/discussionRouter");
 
 mongoose.connect(process.env.DATABASE_URL, {useNewUrlParser: true});
 const db = mongoose.connection;
@@ -25,5 +26,6 @@ db.once("open", () => console.log("Connected to Database"));
 app.use("/api/problems", problem_router);
 app.use("/api/compiler", compiler_router);
 app.use("/api/codepen", codepen_router);
+app.use("/api/discussion", discussion_router);
 app.use("/api", auth_router);
 app.listen(PORT, () => console.log(`Server Started ${PORT} `));

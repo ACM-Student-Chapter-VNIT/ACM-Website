@@ -9,6 +9,8 @@ import Home from "./Components/Login/Home";
 import PrivateRoute from "./Components/auth/PrivateRoute";
 import HomeScreen from "./Components/Codepen/HomeScreen";
 import Editor from "./Components/Codepen/Editor";
+import Quora from "./Components/DiscussionForum/Quora";
+import Test from "./Components/Test";
 
 function SiteRouter() {
     return (
@@ -30,6 +32,9 @@ function SiteRouter() {
                 <Route path="/compiler" exact element={<OnlineCompiler />} />
                 <Route path="/codepen" element={<HomeScreen />} />
                 <Route path="/codepen/projects/:id" exact element={<Editor/>} />
+                <Route path="/discussion" exact element={<Quora/>} />
+                {/* Remove test later */}
+                <Route path="/test" exact element={<Test/>} />
             </Routes>
         </BrowserRouter>
     );
