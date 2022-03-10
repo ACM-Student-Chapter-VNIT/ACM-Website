@@ -39,8 +39,8 @@ function QuoraHeader({ setSearchTerm }) {
         .post("/api/discussion/questions", body, config)
         .then((res) => {
           console.log(res.data);
-          alert(res.data);
-          window.location.href = "/";
+          // alert(res.data);
+          window.location.href = "/discussion";
         })
         .catch((e) => {
           console.log(e);

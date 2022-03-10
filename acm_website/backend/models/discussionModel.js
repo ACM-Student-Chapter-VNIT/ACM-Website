@@ -29,6 +29,6 @@ const answerDB = mongoose.model("Answers", AnswerSchema);
 const questionDB = mongoose.model("Questions", QuestionSchema);
 
 module.exports = {
-	"answerDB": AnswerSchema,
-	"questionDB": QuestionSchema
+	answerDB: answerDB,
+	questionDB: questionDB
 };
