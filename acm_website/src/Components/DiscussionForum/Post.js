@@ -23,10 +23,12 @@ import Button from '@material-ui/core/Button';
 function LastSeen({ date }) {
   return (
     <div>
-      <ReactTimeAgo date={date} locale="en-US" timeStyle="round" />
+		  {/* Uncomment this later - resolve any errors*/}
+      {/* <ReactTimeAgo date={date} locale="en-US" timeStyle="round" /> */}
     </div>
   );
 }
+
 function Post({post}) {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [answer , setAnswer] = useState("")
@@ -38,6 +40,11 @@ function Post({post}) {
   //   setAnswer(value);
   //   //console.log(answer);
   // }
+
+	const handleQ = (e)=>{
+		setAnswer(e.target.value);
+		//console.log(answer);
+	}
 
   const handleSubmit = async() => {
     if(post?._id && answer !== ""){
@@ -51,11 +58,12 @@ function Post({post}) {
         answer : answer,
         questionId : post?._id
       }
+			console.log(body);
       await axios.post('/api/discussion/answers', body , config).then((res)=> {
-        console.log(res.data)
+        // console.log(res.data)
         alert('Answer added Successfully')
         setIsModalOpen(false)
-        window.location.href = '/'
+        window.location.href = '/discussion'
       }).catch((e)=>{
         console.log(e);
       })
@@ -102,7 +110,11 @@ function Post({post}) {
               </p>
             </div>
             <div className="modal__answer">
-              {/* <ReactQuill value = {answer} onChange = {handleQuill} placeholder="Enter your answer" /> */}
+							<textarea value={answer} onChange={handleQ} placeholder="Enter your answer"></textarea>
+              {/*
+								Issue with ReactQuill - resolve later
+							*/}
+							{/* <ReactQuill value = {answer} onChange = {handleQuill} placeholder="Enter your answer" /> */}
             </div>
             <div className="modal__button">
               <button className="cancle" onClick={() => setIsModalOpen(false)}>
@@ -156,45 +168,44 @@ function Post({post}) {
         className="post__answer"
       >
       { showAnswer && 
-        post?.allAnswers.map((_a)=>(
-          <>
+        post?.allAnswers.map((_a, index)=>(
             <div
-            style={{
-              display: "flex",
-              flexDirection: "column",
-              width: "100%",
-              padding: "10px 5px",
-              borderTop: "1px solid lightgray",
-            }}
-            className="post-answer-container"
-          >
-            <div
-              style={{
-                display: "flex",
-                alignItems: "center",
-                marginBottom: "10px",
-                fontSize: "12px",
-                fontWeight: 600,
-                color: "#888",
-              }}
-              className="post-answered"
-            >
-              <Avatar />
-              <div
-                style={{
-                  margin: "0px 10px",
-                }}
-                className="post-info"
-              >
-                <p>Username</p>
-                <span>
-                    <LastSeen date={_a?.createdAt} />
-                  </span>
-              </div>
-            </div>
-            <div className="post-answer">{ReactHtmlParser(_a?.answer)}</div>
-          </div>
-        </>
+							style={{
+								display: "flex",
+								flexDirection: "column",
+								width: "100%",
+								padding: "10px 5px",
+								borderTop: "1px solid lightgray",
+							}}
+							className="post-answer-container"
+							key={index}
+          	>
+							<div
+								style={{
+									display: "flex",
+									alignItems: "center",
+									marginBottom: "10px",
+									fontSize: "12px",
+									fontWeight: 600,
+									color: "#888",
+								}}
+								className="post-answered"
+							>
+								<Avatar />
+								<div
+									style={{
+										margin: "0px 10px",
+									}}
+									className="post-info"
+								>
+									<p>Username</p>
+									<span>
+										<LastSeen date={_a?.createdAt} />
+									</span>
+								</div>
+							</div>
+							<div className="post-answer">{ReactHtmlParser(_a?.answer)}</div>
+						</div>
         ))
       }
         
